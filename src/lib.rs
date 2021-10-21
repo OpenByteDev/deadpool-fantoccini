@@ -31,15 +31,36 @@ use fantoccini::{ClientBuilder, Locator};
 
 #[tokio::main]
 async fn main() {
-    let manager = Manager::new("http://localhost:4444", fantoccini::ClientBuilder::native());
-    let pool = Pool::builder(manager)
-        .max_size(5)
-        .build()
-        .unwrap();
-    
+    # let webdriver_install_dir = dbg!(tempfile::Builder::new()
+    #     .prefix("deadpool-fantoccini-test-webdriver-install-")
+    #     .tempdir()
+    #     .unwrap());
+    # let webdriver_install_path = webdriver_install_dir.path().to_path_buf();
+    # let webdriver_path = tokio::task::spawn_blocking(move || {
+    #     webdriver_install::Driver::Chrome
+    #         .install_into(webdriver_install_path)
+    #         .unwrap()
+    # })
+    # .await
+    # .unwrap();
+    # let mut webdriver = std::process::Command::new(webdriver_path)
+    #     .arg("--port=4444")
+    #     .spawn()
+    #     .unwrap();
+    # defer_lite::defer! { let _ = webdriver.kill(); };
+    # 
+    let manager = Manager::new("http://localhost:4444", ClientBuilder::native());
+    let pool = Pool::builder(manager).max_size(5).build().unwrap();
+
     let mut client = pool.get().await.unwrap();
     client.goto("http://example.org/").await.unwrap();
-    let title = client.find(Locator::Css("h1")).await.unwrap().text().await.unwrap();
+    let title = client
+        .find(Locator::Css("h1"))
+        .await
+        .unwrap()
+        .text()
+        .await
+        .unwrap();
     assert_eq!(title, "Example Domain");
     drop(client);
 
@@ -92,13 +113,17 @@ pub mod raw {
     pub type Pool<C> = deadpool::managed::Pool<Manager<C>, deadpool::managed::Object<Manager<C>>>;
 
     /// Type alias for using [`deadpool::managed::PoolBuilder`] with [`fantoccini`].
-    pub type PoolBuilder<C> = deadpool::managed::PoolBuilder<Manager<C>, deadpool::managed::Object<Manager<C>>>;
+    pub type PoolBuilder<C> =
+        deadpool::managed::PoolBuilder<Manager<C>, deadpool::managed::Object<Manager<C>>>;
 
     /// Type alias for using [`deadpool::managed::BuildError`] with [`fantoccini`].
     pub type BuildError = deadpool::managed::BuildError<fantoccini::error::NewSessionError>;
 
     /// Type alias for using [`deadpool::managed::CreatePoolError`] with [`fantoccini`].
-    pub type CreatePoolError = deadpool::managed::CreatePoolError<std::convert::Infallible, fantoccini::error::NewSessionError>;
+    pub type CreatePoolError = deadpool::managed::CreatePoolError<
+        std::convert::Infallible,
+        fantoccini::error::NewSessionError,
+    >;
 
     /// Type alias for using [`deadpool::managed::PoolError`] with [`fantoccini`].
     pub type PoolError = deadpool::managed::PoolError<fantoccini::error::NewSessionError>;
@@ -186,8 +211,10 @@ pub trait PoolShutdown {
 }
 
 #[async_trait]
-impl <C> PoolShutdown for raw::Pool<C>
-where C: 'static + hyper::client::connect::Connect + Send + Sync + Clone + Unpin {
+impl<C> PoolShutdown for raw::Pool<C>
+where
+    C: 'static + hyper::client::connect::Connect + Send + Sync + Clone + Unpin,
+{
     type Error = fantoccini::error::CmdError;
 
     async fn shutdown(self) -> Result<(), Self::Error> {
