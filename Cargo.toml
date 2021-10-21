@@ -1,7 +1,7 @@
 [package]
 name = "deadpool-fantoccini"
-version = "0.0.0"
-description = "Placeholder for a deadpool manager for fantoccini."
+version = "0.1.0"
+description = "Dead simple async session pool for fantoccini."
 readme = "README.md"
 repository = "https://github.com/OpenByteDev/transparent" 
 documentation = "https://docs.rs/transparent"
