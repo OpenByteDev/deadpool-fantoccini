@@ -1,0 +1,13 @@
+[package]
+name = "deadpool-fantoccini"
+version = "0.0.0"
+description = "Placeholder for a deadpool manager for fantoccini."
+readme = "README.md"
+repository = "https://github.com/OpenByteDev/transparent" 
+documentation = "https://docs.rs/transparent"
+license = "MIT"
+authors = ["OpenByte <development.openbyte@gmail.com>"]
+edition = "2021"
+keywords = ["pool", "async", "webdriver", "session"]
+
+[dependencies]
