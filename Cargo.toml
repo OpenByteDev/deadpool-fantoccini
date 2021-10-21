@@ -11,3 +11,11 @@ edition = "2021"
 keywords = ["pool", "async", "webdriver", "session"]
 
 [dependencies]
+deadpool = { version = "0.9", default-features = false, features = ["managed"] }
+fantoccini = { version = "0.17", default-features = false }
+hyper = { version = "0.14", default-features = false }
+hyper-tls = { version = "0.5", default-features = false }
+
+[dev-dependencies]
+fantoccini = { version = "0.17", default-features = false, features = ["native-tls"] }
+tokio = { version = "1.12", default-features = false, features = ["rt", "macros", "rt-multi-thread"] }
