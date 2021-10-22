@@ -24,7 +24,7 @@
 
 This crate implements a deadpool manager for [`fantoccini`].
 
-# Example
+## Example
 ```rust
 use deadpool_fantoccini::{Manager, Pool, PoolShutdown};
 use fantoccini::{ClientBuilder, Locator};
