@@ -6,9 +6,9 @@
 [![dependency status](https://deps.rs/repo/github/openbytedev/deadpool-fantoccini/status.svg)](https://deps.rs/repo/github/openbytedev/deadpool-fantoccini)
 [![MIT](https://img.shields.io/crates/l/deadpool-fantoccini.svg)](https://github.com/OpenByteDev/deadpool-fantoccini/blob/master/LICENSE)
 
-Deadpool is a dead simple async pool for connections and objects of any type.
+[`deadpool`](https://crates.io/crates/deadpool/0.9.0) is a dead simple async pool for connections and objects of any type.
 
-This crate implements a deadpool manager for [`fantoccini`].
+This crate implements a deadpool manager for [`fantoccini`](https://crates.io/crates/fantoccini/0.17.6).
 
 # Example
 ```rust
@@ -38,4 +38,4 @@ async fn main() {
 ```
 
 ## License
-Licensed under MIT license ([LICENSE](https://github.com/OpenByteDev/deadpool-fantoccini/blob/master/LICENSE) or <http://opensource.org/licenses/MIT>)
+Licensed under MIT license ([LICENSE](https://github.com/OpenByteDev/deadpool-fantoccini/blob/master/LICENSE) or http://opensource.org/licenses/MIT)
