@@ -80,6 +80,9 @@ pub mod native_tls;
 /// Type aliases for using this crate with [`rustls`](https://crates.io/crates/rustls).
 pub mod rustls_tls;
 
+/// Reexports of the depdencies of this crate.
+pub mod reexports;
+
 /// Type alias for using [`deadpool::managed::Pool`] with [`fantoccini`].
 pub type Pool<C> = deadpool::managed::Pool<Manager<C>, deadpool::managed::Object<Manager<C>>>;
 
