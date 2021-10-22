@@ -1,6 +1,6 @@
 [package]
 name = "deadpool-fantoccini"
-version = "0.2.0"
+version = "0.2.1"
 description = "Dead simple async session pool for fantoccini."
 readme = "README.md"
 repository = "https://github.com/OpenByteDev/deadpool-fantoccini" 
