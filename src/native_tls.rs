@@ -1,4 +1,6 @@
+#[allow(unused_imports)]
 use fantoccini::ClientBuilder;
+#[allow(unused_imports)]
 use hyper::client::connect::Connect;
 
 /// Type alias for the [`Connect`] impl used in [`ClientBuilder::native`].
