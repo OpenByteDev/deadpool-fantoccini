@@ -14,7 +14,8 @@ keywords = ["pool", "async", "webdriver", "session"]
 deadpool = { version = "0.9", default-features = false, features = ["managed"] }
 fantoccini = { version = "0.17", default-features = false }
 hyper = { version = ">=0.14.10", default-features = false }
-hyper-tls = { version = "0.5", default-features = false }
+hyper-tls = { version = "0.5", default-features = false, optional = true }
+hyper-rustls = { version = "0.22", default-features = false, optional = true }
 
 [dev-dependencies]
 fantoccini = { version = "0.17", default-features = false, features = ["native-tls"] }
@@ -22,3 +23,8 @@ tokio = { version = "1.12", default-features = false, features = ["rt", "macros"
 webdriver-install = { version = "0.3", default-features = false }
 tempfile = { version = "3.2", default-features = false }
 defer-lite = { version = "1.0", default-features = false }
+
+[features]
+default = ["native-tls"]
+native-tls = ["fantoccini/native-tls", "hyper-tls"]
+rustls-tls = ["fantoccini/rustls-tls", "hyper-rustls"]
