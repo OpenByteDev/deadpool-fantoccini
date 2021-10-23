@@ -26,5 +26,10 @@ defer-lite = { version = "1.0", default-features = false }
 
 [features]
 default = ["native-tls"]
+full = ["native-tls", "rustls-tls"]
 native-tls = ["fantoccini/native-tls", "hyper-tls"]
 rustls-tls = ["fantoccini/rustls-tls", "hyper-rustls"]
+doc_cfg = ["full"]
+
+[package.metadata.docs.rs]
+features = ["doc_cfg"]

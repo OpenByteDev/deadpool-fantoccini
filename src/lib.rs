@@ -1,4 +1,4 @@
-#![cfg_attr(docsrs, feature(doc_cfg))]
+#![cfg_attr(feature = "doc_cfg", feature(doc_cfg))]
 #![deny(
     nonstandard_style,
     rust_2018_idioms,
@@ -72,11 +72,13 @@ async fn main() {
 
 use deadpool::async_trait;
 
-#[cfg(feature = "native-tls")]
+#[cfg(any(feature = "native-tls", feature = "doc_cfg"))]
+#[cfg_attr(feature = "doc_cfg", doc(cfg(feature = "native-tls")))]
 /// Type aliases for using this crate with [`native-tls`](https://crates.io/crates/native-tls).
 pub mod native_tls;
 
-#[cfg(feature = "rustls-tls")]
+#[cfg(any(feature = "rustls-tls", feature = "doc_cfg"))]
+#[cfg_attr(feature = "doc_cfg", doc(cfg(feature = "rustls-tls")))]
 /// Type aliases for using this crate with [`rustls`](https://crates.io/crates/rustls).
 pub mod rustls_tls;
 
