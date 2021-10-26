@@ -22,7 +22,7 @@
     clippy::cargo,
     unsafe_op_in_unsafe_fn
 )]
-#![allow(clippy::cargo_common_metadata)]
+#![allow(clippy::cargo_common_metadata, clippy::no_effect_underscore_binding)]
 
 /*!
 [`deadpool`] is a dead simple async pool for connections and objects of any type.
