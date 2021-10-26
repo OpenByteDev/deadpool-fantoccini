@@ -31,11 +31,15 @@ use fantoccini::{ClientBuilder, Locator};
 
 #[tokio::main]
 async fn main() {
-    # let webdriver_install_dir = dbg!(tempfile::Builder::new()
+    # let webdriver_install_dir = tempfile::Builder::new()
     #     .prefix("deadpool-fantoccini-test-webdriver-install-")
     #     .tempdir()
-    #     .unwrap());
+    #     .unwrap();
     # let webdriver_install_path = webdriver_install_dir.path().to_path_buf();
+    # defer_lite::defer! {
+    #    webdriver_install_dir.close().unwrap();
+    # };
+
     # let webdriver_path = tokio::task::spawn_blocking(move || {
     #     webdriver_install::Driver::Chrome
     #         .install_into(webdriver_install_path)
@@ -43,11 +47,15 @@ async fn main() {
     # })
     # .await
     # .unwrap();
-    # let mut webdriver = std::process::Command::new(webdriver_path)
+    #
+    # let mut webdriver = std::process::Command::new(&webdriver_path)
     #     .arg("--port=4444")
     #     .spawn()
     #     .unwrap();
-    # defer_lite::defer! { let _ = webdriver.kill(); };
+    # defer_lite::defer! {
+    #    webdriver.kill().unwrap();
+    #    webdriver.wait().unwrap();
+    # };
     #
     let manager = Manager::new("http://localhost:4444", ClientBuilder::native());
     let pool = Pool::builder(manager).max_size(5).build().unwrap();
