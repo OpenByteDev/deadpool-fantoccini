@@ -9,6 +9,7 @@ license = "MIT"
 authors = ["OpenByte <development.openbyte@gmail.com>"]
 edition = "2021"
 keywords = ["pool", "async", "webdriver", "session"]
+categories = ["asynchronous", "development-tools::testing", "web-programming"]
 
 [dependencies]
 deadpool = { version = "0.9", default-features = false, features = ["managed"] }
