@@ -5,8 +5,9 @@
     rustdoc::broken_intra_doc_links,
     rustdoc::private_intra_doc_links
 )]
-#![forbid(non_ascii_idents, unsafe_code)]
+#![forbid(unsafe_code)]
 #![warn(
+    non_ascii_idents,
     deprecated_in_future,
     missing_copy_implementations,
     missing_debug_implementations,
@@ -16,8 +17,12 @@
     unused_labels,
     unused_lifetimes,
     unused_qualifications,
-    unused_results
+    unused_results,
+    clippy::pedantic,
+    clippy::cargo,
+    unsafe_op_in_unsafe_fn
 )]
+#![allow(clippy::cargo_common_metadata)]
 
 /*!
 [`deadpool`] is a dead simple async pool for connections and objects of any type.
