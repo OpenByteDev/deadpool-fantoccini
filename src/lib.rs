@@ -44,7 +44,7 @@ async fn main() {
     # defer_lite::defer! {
     #    webdriver_install_dir.close().unwrap();
     # };
-
+    #
     # let webdriver_path = tokio::task::spawn_blocking(move || {
     #     webdriver_install::Driver::Chrome
     #         .install_into(webdriver_install_path)
@@ -95,7 +95,7 @@ pub mod native_tls;
 /// Type aliases for using this crate with [`rustls`](https://crates.io/crates/rustls).
 pub mod rustls_tls;
 
-/// Reexports of the depdencies of this crate.
+/// Reexports of the dependencies of this crate.
 pub mod reexports;
 
 /// Type alias for using [`deadpool::managed::Pool`] with [`fantoccini`].
@@ -129,7 +129,7 @@ pub type HookError<C> = deadpool::managed::HookError<Manager<C>>;
 /// Type alias for using [`deadpool::managed::HookErrorCause`] with [`fantoccini`].
 pub type HookErrorCause<C> = deadpool::managed::HookErrorCause<Manager<C>>;
 
-/// [`Manager`] for creating and recycling [`fantoccini::Client`]s.
+/// [`deadpool::managed::Manager`] for creating and recycling [`fantoccini::Client`]s.
 #[derive(Debug, Clone)]
 pub struct Manager<C>
 where
@@ -194,7 +194,7 @@ pub trait PoolShutdown {
     type Error;
 
     /// Cleanly close all active sessions from this pool.
-    /// New sessions should be created while this method is running.
+    /// New sessions should not be created while this method is running.
     async fn shutdown(self) -> Result<(), Self::Error>;
 }
 
@@ -216,7 +216,7 @@ where
             }
         }
 
-        // a session could be created here which would not be closed cleanly.
+        // a session could be created here, which would not be closed cleanly.
 
         self.close();
 
