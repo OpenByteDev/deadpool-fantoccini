@@ -178,6 +178,7 @@ where
             .connect(self.webdriver_url.as_str())
             .await
     }
+
     async fn recycle(
         &self,
         _obj: &mut Self::Type,
@@ -212,7 +213,7 @@ where
                     self.resize(self.status().max_size - 1);
                     deadpool::managed::Object::take(o).close().await?;
                 }
-                Err(e) => panic!("{:#?}", e),
+                Err(e) => panic!("{e:#?}"),
             }
         }
 
