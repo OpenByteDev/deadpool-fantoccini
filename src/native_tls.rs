@@ -31,4 +31,3 @@ pub type Hook = super::Hook<Connector>;
 
 /// Type alias for using [`super::HookError`] with [`ClientBuilder::native`].
 pub type HookError = super::HookError<Connector>;
-

@@ -107,9 +107,7 @@ pub type PoolBuilder<C> =
 pub type BuildError = deadpool::managed::BuildError;
 
 /// Type alias for using [`deadpool::managed::CreatePoolError`] with [`fantoccini`].
-pub type CreatePoolError = deadpool::managed::CreatePoolError<
-    fantoccini::error::NewSessionError
->;
+pub type CreatePoolError = deadpool::managed::CreatePoolError<fantoccini::error::NewSessionError>;
 
 /// Type alias for using [`deadpool::managed::PoolError`] with [`fantoccini`].
 pub type PoolError = deadpool::managed::PoolError<fantoccini::error::NewSessionError>;
@@ -192,7 +190,7 @@ pub trait PoolShutdown {
     /// New sessions should not be created while this method is running.
     fn shutdown(self) -> impl std::future::Future<Output = Result<(), Self::Error>> + Send;
 }
- 
+
 impl<C> PoolShutdown for Pool<C>
 where
     C: 'static + Connect + Send + Sync + Clone + Unpin,
