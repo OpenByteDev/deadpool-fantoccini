@@ -1,4 +1,4 @@
-#![cfg_attr(feature = "doc_cfg", feature(doc_cfg))]
+#![cfg_attr(docsrs, feature(doc_cfg))]
 #![deny(
     nonstandard_style,
     rust_2018_idioms,
