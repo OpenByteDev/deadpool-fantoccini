@@ -1,6 +1,7 @@
 #[allow(unused_imports)]
 use fantoccini::ClientBuilder;
-use hyper_util::client::legacy::connect::HttpConnector;
+#[allow(unused_imports)]
+use hyper_util::client::legacy::connect::{Connect, HttpConnector};
 
 /// Type alias for the [`Connect`] impl used in [`ClientBuilder::native`].
 pub type Connector = hyper_tls::HttpsConnector<HttpConnector>;

@@ -1,10 +1,10 @@
 #[allow(unused_imports)]
 use fantoccini::ClientBuilder;
 #[allow(unused_imports)]
-use hyper::client::connect::Connect;
+use hyper_util::client::legacy::connect::{Connect, HttpConnector};
 
 /// Type alias for the [`Connect`] impl used in [`ClientBuilder::rustls`].
-pub type Connector = hyper_rustls::HttpsConnector<hyper::client::connect::HttpConnector>;
+pub type Connector = hyper_rustls::HttpsConnector<HttpConnector>;
 
 /// Type alias for using [`super::Manager`] with [`ClientBuilder::rustls`].
 pub type Manager = super::Manager<Connector>;
@@ -32,6 +32,3 @@ pub type Hook = super::Hook<Connector>;
 
 /// Type alias for using [`super::HookError`] with [`ClientBuilder::rustls`].
 pub type HookError = super::HookError<Connector>;
-
-/// Type alias for using [`super::HookErrorCause`] with [`ClientBuilder::rustls`].
-pub type HookErrorCause = super::HookErrorCause<Connector>;
