@@ -1,4 +1,5 @@
 #!/bin/bash
+
 brew install --cask firefox
 brew install geckodriver
-geckodriver &
+geckodriver --port 4444 &
