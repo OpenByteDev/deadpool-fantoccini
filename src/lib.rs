@@ -83,8 +83,6 @@ async fn main() {
 ```
 !*/
 
-use deadpool::async_trait;
-
 #[cfg(any(feature = "native-tls", feature = "doc_cfg"))]
 #[cfg_attr(feature = "doc_cfg", doc(cfg(feature = "native-tls")))]
 /// Type aliases for using this crate with [`native-tls`](https://crates.io/crates/native-tls).
@@ -106,12 +104,11 @@ pub type PoolBuilder<C> =
     deadpool::managed::PoolBuilder<Manager<C>, deadpool::managed::Object<Manager<C>>>;
 
 /// Type alias for using [`deadpool::managed::BuildError`] with [`fantoccini`].
-pub type BuildError = deadpool::managed::BuildError<fantoccini::error::NewSessionError>;
+pub type BuildError = deadpool::managed::BuildError;
 
 /// Type alias for using [`deadpool::managed::CreatePoolError`] with [`fantoccini`].
 pub type CreatePoolError = deadpool::managed::CreatePoolError<
-    std::convert::Infallible,
-    fantoccini::error::NewSessionError,
+    fantoccini::error::NewSessionError
 >;
 
 /// Type alias for using [`deadpool::managed::PoolError`] with [`fantoccini`].
@@ -126,14 +123,13 @@ pub type Hook<C> = deadpool::managed::Hook<Manager<C>>;
 /// Type alias for using [`deadpool::managed::HookError`] with [`fantoccini`].
 pub type HookError<C> = deadpool::managed::HookError<Manager<C>>;
 
-/// Type alias for using [`deadpool::managed::HookErrorCause`] with [`fantoccini`].
-pub type HookErrorCause<C> = deadpool::managed::HookErrorCause<Manager<C>>;
+use hyper_util::client::legacy::connect::Connect;
 
 /// [`deadpool::managed::Manager`] for creating and recycling [`fantoccini::Client`]s.
 #[derive(Debug, Clone)]
 pub struct Manager<C>
 where
-    C: 'static + hyper::client::connect::Connect + Send + Sync + Clone + Unpin,
+    C: 'static + Connect + Send + Sync + Clone + Unpin,
 {
     client_builder: fantoccini::ClientBuilder<C>,
     webdriver_url: String,
@@ -141,7 +137,7 @@ where
 
 impl<C> Manager<C>
 where
-    C: 'static + hyper::client::connect::Connect + Send + Sync + Clone + Unpin,
+    C: 'static + Connect + Send + Sync + Clone + Unpin,
 {
     /// Creates a new [`Manager`] using the given webdriver url and the [`fantoccini::ClientBuilder`] used to contruct new connections.
     pub fn new(
@@ -165,10 +161,9 @@ where
     }
 }
 
-#[async_trait]
 impl<C> deadpool::managed::Manager for Manager<C>
 where
-    C: 'static + hyper::client::connect::Connect + Send + Sync + Clone + Unpin,
+    C: 'static + Connect + Send + Sync + Clone + Unpin,
 {
     type Type = fantoccini::Client;
     type Error = fantoccini::error::NewSessionError;
@@ -182,27 +177,25 @@ where
     async fn recycle(
         &self,
         _obj: &mut Self::Type,
+        _metrics: &deadpool::managed::Metrics,
     ) -> deadpool::managed::RecycleResult<Self::Error> {
         Ok(())
     }
 }
 
 /// Extensions trait used to provide a way to cleanly close all active sessions from a [`Pool`].
-#[async_trait]
 pub trait PoolShutdown {
-    /// Error that the [`Pool`] can return when closing an active session from the pool.
-    /// [`Pool`]: deadpool::managed::Pool
+    /// Error that the [`Pool`](`deadpool::managed::Pool`) can return when closing an active session from the pool.
     type Error;
 
     /// Cleanly close all active sessions from this pool.
     /// New sessions should not be created while this method is running.
-    async fn shutdown(self) -> Result<(), Self::Error>;
+    fn shutdown(self) -> impl std::future::Future<Output = Result<(), Self::Error>> + Send;
 }
-
-#[async_trait]
+ 
 impl<C> PoolShutdown for Pool<C>
 where
-    C: 'static + hyper::client::connect::Connect + Send + Sync + Clone + Unpin,
+    C: 'static + Connect + Send + Sync + Clone + Unpin,
 {
     type Error = fantoccini::error::CmdError;
 
