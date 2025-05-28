@@ -19,7 +19,6 @@
     unused_qualifications,
     unused_results,
     clippy::pedantic,
-    clippy::cargo,
     unsafe_op_in_unsafe_fn
 )]
 #![allow(clippy::cargo_common_metadata, clippy::no_effect_underscore_binding)]
