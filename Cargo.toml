@@ -29,3 +29,7 @@ default = ["native-tls"]
 full = ["native-tls", "rustls-tls"]
 native-tls = ["fantoccini/native-tls", "hyper-tls"]
 rustls-tls = ["fantoccini/rustls-tls", "hyper-rustls"]
+
+[package.metadata.docs.rs]
+all-features = true
+rustdoc-args = ["--cfg", "docsrs"]

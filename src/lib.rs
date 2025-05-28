@@ -56,12 +56,12 @@ async fn main() {
 ```
 !*/
 
-#[cfg(any(feature = "native-tls", docsrs))]
+#[cfg(any(feature = "native-tls"))]
 #[cfg_attr(docsrs, doc(cfg(feature = "native-tls")))]
 /// Type aliases for using this crate with [`native-tls`](https://crates.io/crates/native-tls).
 pub mod native_tls;
 
-#[cfg(any(feature = "rustls-tls", docsrs))]
+#[cfg(any(feature = "rustls-tls"))]
 #[cfg_attr(docsrs, doc(cfg(feature = "rustls-tls")))]
 /// Type aliases for using this crate with [`rustls`](https://crates.io/crates/rustls).
 pub mod rustls_tls;
